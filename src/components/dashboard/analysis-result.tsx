@@ -4,7 +4,7 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import type { AnalysisResultData } from "@/app/dashboard/page"
-import GaugeChart from "./gauge-chart"
+import ConfidenceChart from "./confidence-chart"
 import { ArrowLeft } from "lucide-react"
 
 interface AnalysisResultProps {
@@ -43,13 +43,13 @@ export default function AnalysisResult({ result, onReset }: AnalysisResultProps)
             />
           </div>
           <div className="flex flex-col items-center text-center">
-            <GaugeChart value={percentage} />
-            <p className="text-4xl font-bold tracking-tighter mt-4">
+             <p className="text-4xl font-bold tracking-tighter">
               {percentage}%
             </p>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lg text-muted-foreground mb-4">
               {likelihood}
             </p>
+            <ConfidenceChart confidence={result.confidence} />
             <blockquote className="mt-6 border-l-2 pl-6 italic">
               "{feedback}"
             </blockquote>
