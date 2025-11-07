@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { generateFeedback } from "@/ai/flows/dynamic-feedback-based-on-confidence"
 import Header from "@/components/header"
 import ImageUploader from "@/components/dashboard/image-uploader"
 import AnalysisResult from "@/components/dashboard/analysis-result"
@@ -9,7 +8,7 @@ import { useToast } from "@/hooks/use-toast"
 import { Loader2 } from "lucide-react"
 
 type View = "upload" | "loading" | "result"
-export type AnalysisResultData = { confidence: number; feedback: string; imagePreviewUrl: string }
+export type AnalysisResultData = { confidence: number; imagePreviewUrl: string }
 
 export default function DashboardPage() {
   const [view, setView] = useState<View>("upload")
@@ -44,9 +43,8 @@ export default function DashboardPage() {
       }
 
       const { confidence } = await response.json()
-      const { feedback } = await generateFeedback({ confidence })
 
-      setResultData({ confidence, feedback, imagePreviewUrl })
+      setResultData({ confidence, imagePreviewUrl })
       setView("result")
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "An unknown error occurred."

@@ -14,6 +14,17 @@ interface AnalysisResultProps {
 
 export default function AnalysisResult({ result, onReset }: AnalysisResultProps) {
   const percentage = Math.round(result.confidence * 100)
+  
+  let feedback = "Uncertain, further analysis may be needed.";
+  let likelihood = "Uncertain";
+  
+  if (result.confidence > 0.7) {
+    feedback = "This image appears to have characteristics common in AI-generated content.";
+    likelihood = "Likely AI-Generated";
+  } else if (result.confidence < 0.3) {
+    feedback = "This image appears to be a real photograph.";
+    likelihood = "Likely Real";
+  }
 
   return (
     <div className="w-full animate-in fade-in-0 zoom-in-95 duration-500">
@@ -37,10 +48,10 @@ export default function AnalysisResult({ result, onReset }: AnalysisResultProps)
               {percentage}%
             </p>
             <p className="text-lg text-muted-foreground">
-              Likely AI-Generated
+              {likelihood}
             </p>
             <blockquote className="mt-6 border-l-2 pl-6 italic">
-              "{result.feedback}"
+              "{feedback}"
             </blockquote>
           </div>
         </CardContent>
