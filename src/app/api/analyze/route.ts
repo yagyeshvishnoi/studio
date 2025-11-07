@@ -9,8 +9,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'No image uploaded' }, { status: 400 });
     }
     
+    const apiUrl = process.env.ANALYSIS_API_URL;
+    if (!apiUrl) {
+      console.error("ANALYSIS_API_URL environment variable is not set.");
+      return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
+    }
+
     // The client sends FormData, so we need to forward it.
-    const analysisResponse = await fetch('https://db79a31dc48d.ngrok-free.app/predict', {
+    const analysisResponse = await fetch(apiUrl, {
       method: 'POST',
       body: formData,
     });
