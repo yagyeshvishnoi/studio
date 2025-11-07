@@ -1,31 +1,36 @@
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 2000);
-  let confidence = 0.5; // Default confidence
-
   try {
-    const response = await fetch('https://690d91eea6d92d83e8520ed0.mockapi.io/confidence', {
-      signal: controller.signal,
+    const formData = await request.formData();
+    const image = formData.get('image');
+
+    if (!image) {
+      return NextResponse.json({ error: 'No image uploaded' }, { status: 400 });
+    }
+    
+    // The client sends FormData, so we need to forward it.
+    const analysisResponse = await fetch('https://db79a31dc48d.ngrok-free.app/predict', {
+      method: 'POST',
+      body: formData,
     });
-    clearTimeout(timeoutId);
 
-    if (response.ok) {
-      const data = await response.json();
-      // The mock API returns an array with one object: [{ "confidence": "0.78", "id": "1" }]
-      if (Array.isArray(data) && data.length > 0 && data[0].confidence) {
-        confidence = parseFloat(data[0].confidence);
-      }
+    if (!analysisResponse.ok) {
+      // If the external API fails, we'll log the error and use a default.
+      console.error("Analysis API failed with status:", analysisResponse.status);
+      const errorText = await analysisResponse.text();
+      console.error("Analysis API response:", errorText);
+      return NextResponse.json({ confidence: 0.5 });
     }
-  } catch (error: any) {
-    if (error.name !== 'AbortError') {
-      console.error("Error fetching confidence:", error);
-    }
-    // On timeout (AbortError) or other fetch errors, the default confidence of 0.5 will be used.
-  } finally {
-    clearTimeout(timeoutId);
+
+    const result = await analysisResponse.json();
+    
+    // The new API returns { filename: '...', confidence: 0.1234 }
+    return NextResponse.json({ confidence: result.confidence ?? 0.5 });
+
+  } catch (error) {
+    console.error("Error in analyze endpoint:", error);
+    // On any other errors, use a default confidence.
+    return NextResponse.json({ confidence: 0.5 }, { status: 500 });
   }
-
-  return NextResponse.json({ confidence });
 }
