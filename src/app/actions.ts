@@ -4,11 +4,16 @@
 import { redirect } from 'next/navigation'
 
 export async function login(formData: FormData) {
-  // Mock login logic. In a real app, you would validate credentials.
   const email = formData.get('email')
-  if (email) {
+  const password = formData.get('password')
+
+  if (email === 'admin' && password === 'admin') {
     // In a real app, you'd set a session cookie here.
     redirect('/dashboard')
+  } else {
+    // You might want to redirect to the login page with an error message
+    // For now, we'll just redirect back to login.
+    redirect('/login?error=Invalid credentials')
   }
 }
 
