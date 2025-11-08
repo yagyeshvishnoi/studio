@@ -4,10 +4,10 @@
 import { redirect } from 'next/navigation'
 
 export async function login(formData: FormData) {
-  const email = formData.get('email')
+  const username = formData.get('username')
   const password = formData.get('password')
 
-  if (email === 'admin' && password === 'admin') {
+  if (username === 'admin' && password === 'admin') {
     // In a real app, you'd set a session cookie here.
     redirect('/dashboard')
   } else {

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Mail, Lock } from "lucide-react"
+import { User, Lock } from "lucide-react"
 
 export default function LoginPage() {
   return (
@@ -25,10 +25,10 @@ export default function LoginPage() {
       <form action={login}>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="username">Username</Label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input id="email" name="email" type="email" placeholder="m@example.com" required className="pl-10" />
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input id="username" name="username" type="text" placeholder="admin" required className="pl-10" />
             </div>
           </div>
           <div className="space-y-2">
