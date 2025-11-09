@@ -4,6 +4,7 @@ import { Bot, ShieldCheck, Sparkles, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Logo from "@/components/logo"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 const features = [
   {
@@ -31,7 +32,8 @@ export default function LandingPage() {
           <Logo className="h-8 w-8 text-primary" />
           <span className="font-bold text-xl">TrueSight AI</span>
         </Link>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
+            <ThemeToggle />
           <Button variant="ghost" asChild>
             <Link href="/login">Log In</Link>
           </Button>

@@ -1,6 +1,7 @@
 import Link from "next/link"
 import Logo from "./logo"
 import UserNav from "./user-nav"
+import { ThemeToggle } from "./theme-toggle"
 
 export default function Header() {
   return (
@@ -12,7 +13,8 @@ export default function Header() {
             TrueSight AI
           </span>
         </Link>
-        <div className="flex flex-1 items-center justify-end">
+        <div className="flex flex-1 items-center justify-end gap-2">
+            <ThemeToggle />
             <UserNav />
         </div>
       </div>
